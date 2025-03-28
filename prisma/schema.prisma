@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Parcela {
+  id             Int               @id @default(autoincrement())
+  nombre         String
+  ubicacion      String
+  responsable    String
+  tipo_cultivo   String
+  ultimo_riego   DateTime
+  historicos     HistoricoSensor[]
+}
+
+model HistoricoSensor {
+  id               Int       @id @default(autoincrement())
+  temperatura      Float
+  humedad          Float
+  lluvia           Float
+  intensidad_solar Float
+  fecha            DateTime  @default(now())
+  parcelaId        Int
+  parcela          Parcela   @relation(fields: [parcelaId], references: [id])
+}
+
+model ParcelaEliminada {
+  id             Int      @id @default(autoincrement())
+  nombre         String
+  ubicacion      String
+  responsable    String
+  tipo_cultivo   String
+  ultimo_riego   DateTime
+  fechaEliminada DateTime @default(now()) 
+}
