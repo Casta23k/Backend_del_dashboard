@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,11 +8,12 @@ datasource db {
 }
 
 model Parcela {
-  id             Int               @id @default(autoincrement())
+  id             Int               @id       // 🔁 Este ID lo manejarás manualmente (viene de la API)
   nombre         String
-  ubicacion      String
-  responsable    String
   tipo_cultivo   String
+  responsable    String
+  latitud        Float             // 🆕 agregado
+  longitud       Float             // 🆕 agregado
   ultimo_riego   DateTime
   historicos     HistoricoSensor[]
 }
@@ -36,9 +32,10 @@ model HistoricoSensor {
 model ParcelaEliminada {
   id             Int      @id @default(autoincrement())
   nombre         String
-  ubicacion      String
-  responsable    String
   tipo_cultivo   String
+  responsable    String
+  latitud        Float     // 🆕 agregado
+  longitud       Float     // 🆕 agregado
   ultimo_riego   DateTime
-  fechaEliminada DateTime @default(now()) 
+  fechaEliminada DateTime  @default(now())
 }
